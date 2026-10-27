@@ -1,0 +1,59 @@
+# פריסה ב-Render של שני החלקים מאותו Repository:
+#   backend/   ← השרת (Express + Prisma)
+#   frontend/  ← אתר ה-React (Vite)
+# מסד הנתונים נמצא ב-Supabase. כתובת החיבור מוזנת ב-Dashboard בלבד ולא נשמרת בקוד.
+services:
+  # ---------- השרת ----------
+  - type: web
+    name: photographer-backend
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: backend
+    buildCommand: npm ci --include=dev && npm run build
+    # מריץ migrations, מוסיף מנהלת ונתוני פתיחה (אם חסרים) ואז מפעיל את השרת
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      # כתובת אתר ה-React (בלי לוכסן בסוף). בהתחלה אפשר להזין *
+      - key: CORS_ORIGINS
+        sync: false
+      - key: SEED_ADMIN_EMAIL
+        sync: false
+      - key: SEED_ADMIN_PASSWORD
+        sync: false
+      - key: SEED_ADMIN_NAME
+        value: מנהלת האתר
+      - key: SEED_DEMO_DATA
+        value: "true"
+      - key: SEED_DEMO_CUSTOMER_PASSWORD
+        sync: false
+
+  # ---------- אתר ה-React ----------
+  - type: web
+    name: photographer-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # כתובת השרת, למשל https://photographer-backend.onrender.com (בלי לוכסן בסוף)
+      - key: VITE_API_URL
+        sync: false
+    # בלי זה, רענון של דף כמו /packages/5 מחזיר "Not Found"
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
