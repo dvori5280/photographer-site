@@ -1,0 +1,123 @@
+// סכמת מסד הנתונים של אתר התדמית והקטלוג לצלמת
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum EventType {
+  NEWBORN
+  SMASH_CAKE
+  CHALLAH_PHOTOSHOOT
+  FAMILY
+}
+
+enum BookingStatus {
+  NEW
+  IN_PROGRESS
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum ContactStatus {
+  NEW
+  HANDLED
+}
+
+model User {
+  id           String           @id @default(uuid()) @db.Uuid
+  name         String           @db.VarChar(80)
+  email        String           @unique @db.VarChar(254)
+  passwordHash String
+  role         Role             @default(CUSTOMER)
+  createdAt    DateTime         @default(now())
+  bookings     BookingRequest[]
+
+  @@index([role])
+}
+
+model Category {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @unique @db.VarChar(60)
+  description String?   @db.VarChar(300)
+  photos      Photo[]
+  packages    Package[]
+}
+
+model Photo {
+  id          String    @id @default(uuid()) @db.Uuid
+  title       String    @db.VarChar(80)
+  description String?   @db.VarChar(500)
+  imageUrl    String    @db.VarChar(2000)
+  takenAt     DateTime? @db.Date
+  isPublished Boolean   @default(true)
+  categoryId  String    @db.Uuid
+  category    Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([categoryId])
+  @@index([isPublished])
+}
+
+model Package {
+  id              String           @id @default(uuid()) @db.Uuid
+  name            String           @db.VarChar(80)
+  description     String           @db.VarChar(1000)
+  categoryId      String           @db.Uuid
+  category        Category         @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  basePrice       Decimal          @db.Decimal(10, 2)
+  durationMinutes Int
+  includedItems   String[]
+  imageUrl        String?          @db.VarChar(2000)
+  isActive        Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  bookings        BookingRequest[]
+
+  @@index([categoryId])
+  @@index([isActive])
+}
+
+model BookingRequest {
+  id             String        @id @default(uuid()) @db.Uuid
+  userId         String        @db.Uuid
+  user           User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  packageId      String        @db.Uuid
+  package        Package       @relation(fields: [packageId], references: [id], onDelete: Restrict)
+  requestedDate  DateTime      @db.Date
+  eventType      EventType
+  location       String        @db.VarChar(120)
+  phone          String        @db.VarChar(20)
+  notes          String?       @db.VarChar(1000)
+  status         BookingStatus @default(NEW)
+  priceAtRequest Decimal       @db.Decimal(10, 2)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([packageId])
+  @@index([status])
+}
+
+model ContactMessage {
+  id        String        @id @default(uuid()) @db.Uuid
+  name      String        @db.VarChar(80)
+  email     String        @db.VarChar(254)
+  phone     String?       @db.VarChar(20)
+  subject   String        @db.VarChar(100)
+  message   String        @db.VarChar(2000)
+  status    ContactStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([status])
+}
