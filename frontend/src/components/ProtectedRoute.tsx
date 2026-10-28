@@ -9,7 +9,7 @@ export default function ProtectedRoute({ adminOnly }: Props)
 {
     const { user, isLoading } = useAuth();
 
-    if(isLoading) return <p>טוען...</p>
+    if(isLoading) return <p className="py-10 text-center text-muted">טוען...</p>
     if(!user) return <Navigate to="/login" replace />
     if(adminOnly && user.role !== "ADMIN") return <Navigate to="/" replace />
 

@@ -57,34 +57,34 @@ export default function BookingPage()
 
     return (
         <div>
-            <h1>הזמנת {pkg.name}</h1>
-            <p>מחיר: {formatPrice(pkg.basePrice)}</p>
-            <p>זו בקשה ולא הזמנה מאושרת. הצלמת תחזור אלייך לאישור.</p>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <label>תאריך האירוע</label>
-                <input type="date" min={today} {...register("requestedDate", { required: "יש לבחור תאריך" })} />
-                {errors.requestedDate && <p>{errors.requestedDate.message}</p>}
-                <label>סוג אירוע</label>
-                <select {...register("eventType", { required: "יש לבחור סוג אירוע" })}>
+            <h1 className="page-title">הזמנת {pkg.name}</h1>
+            <p className="text-center text-xl font-bold text-rose-dark">מחיר: {formatPrice(pkg.basePrice)}</p>
+            <p className="mb-6 text-center text-sm text-muted">זו בקשה ולא הזמנה מאושרת. הצלמת תחזור אלייך לאישור.</p>
+            <form className="form-card" onSubmit={handleSubmit(onSubmit)}>
+                <label className="form-label">תאריך האירוע</label>
+                <input className="field" type="date" min={today} {...register("requestedDate", { required: "יש לבחור תאריך" })} />
+                {errors.requestedDate && <p className="form-error">{errors.requestedDate.message}</p>}
+                <label className="form-label">סוג אירוע</label>
+                <select className="field" {...register("eventType", { required: "יש לבחור סוג אירוע" })}>
                   <option value="">בחרי סוג אירוע</option>
                   {Object.entries(eventTypeLabels).map(([value, label]) => (
                     <option key={value} value={value}>{label}</option>
                   ))}
                 </select>
-                {errors.eventType && <p>{errors.eventType.message}</p>}
-                <label>מיקום</label>
-                <input type="text" {...register("location", { required: "יש להזין מיקום", minLength: { value: 2, message: "לפחות 2 תווים" } })} />
-                {errors.location && <p>{errors.location.message}</p>}
-                <label>טלפון</label>
-                <input type="tel" {...register("phone", { required: "יש להזין טלפון", pattern: { value: /^(\+972|0)[-\s]?\d{1,2}[-\s]?\d{7}$/, message: "טלפון לא תקין" } })} />
-                {errors.phone && <p>{errors.phone.message}</p>}
-                <label>הערות</label>
-                <textarea {...register("notes", { maxLength: { value: 1000, message: "עד 1000 תווים" } })} />
-                {errors.notes && <p>{errors.notes.message}</p>}
-                {serverError && <p>{serverError}</p>}
-                <button type="submit" disabled={createBooking.isPending}>{createBooking.isPending ? "שולחת..." : "שליחת בקשה"}</button>
+                {errors.eventType && <p className="form-error">{errors.eventType.message}</p>}
+                <label className="form-label">מיקום</label>
+                <input className="field" type="text" {...register("location", { required: "יש להזין מיקום", minLength: { value: 2, message: "לפחות 2 תווים" } })} />
+                {errors.location && <p className="form-error">{errors.location.message}</p>}
+                <label className="form-label">טלפון</label>
+                <input className="field" type="tel" {...register("phone", { required: "יש להזין טלפון", pattern: { value: /^(\+972|0)[-\s]?\d{1,2}[-\s]?\d{7}$/, message: "טלפון לא תקין" } })} />
+                {errors.phone && <p className="form-error">{errors.phone.message}</p>}
+                <label className="form-label">הערות</label>
+                <textarea className="field min-h-28" {...register("notes", { maxLength: { value: 1000, message: "עד 1000 תווים" } })} />
+                {errors.notes && <p className="form-error">{errors.notes.message}</p>}
+                {serverError && <p className="form-error">{serverError}</p>}
+                <button className="btn mt-4" type="submit" disabled={createBooking.isPending}>{createBooking.isPending ? "שולחת..." : "שליחת בקשה"}</button>
             </form>
-            <Link to={"/packages/" + pkg.id}>חזרה לפרטי החבילה</Link>
+            <Link className="mt-4 block text-center text-sm text-rose-dark underline" to={"/packages/" + pkg.id}>חזרה לפרטי החבילה</Link>
         </div>
     )
 }

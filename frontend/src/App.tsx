@@ -13,6 +13,12 @@ import BookingPage from "./pages/BookingPage";
 import MyBookingsPage from "./pages/MyBookingsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLayout from "./components/AdminLayout";
+import AdminBookingsPage from "./pages/admin/AdminBookingsPage";
+import AdminMessagesPage from "./pages/admin/AdminMessagesPage";
+import AdminCategoriesPage from "./pages/admin/AdminCategoriesPage";
+import AdminGalleryPage from "./pages/admin/AdminGalleryPage";
+import AdminPackagesPage from "./pages/admin/AdminPackagesPage";
 
 function App() {
 
@@ -31,6 +37,16 @@ function App() {
     <Route element={<ProtectedRoute />}>
       <Route path="/book/:packageId" element={<BookingPage />} />
       <Route path="/my-bookings" element={<MyBookingsPage />} />
+    </Route>
+
+      <Route element={<ProtectedRoute adminOnly />}>
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route path="bookings" element={<AdminBookingsPage />} />
+        <Route path="messages" element={<AdminMessagesPage />} />
+        <Route path="categories" element={<AdminCategoriesPage />} />
+        <Route path="gallery" element={<AdminGalleryPage />} />
+        <Route path="packages" element={<AdminPackagesPage />} />
+      </Route>
     </Route>
 
     <Route path="*" element={<NotFoundPage />} />

@@ -34,40 +34,40 @@ export default function ContactPage()
 
     return (
         <div>
-            <h1>צור קשר</h1>
-            {sent && <p>ההודעה נשלחה, תודה! נחזור אלייך בהקדם.</p>}
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <label>שם</label>
-<input type="text" {...register("name", {
+            <h1 className="page-title">צור קשר</h1>
+            {sent && <p className="mx-auto mb-4 max-w-lg rounded-xl bg-ok/15 p-3 text-center text-ok">ההודעה נשלחה, תודה! נחזור אלייך בהקדם.</p>}
+            <form className="form-card" onSubmit={handleSubmit(onSubmit)}>
+                <label className="form-label">שם</label>
+<input className="field" type="text" {...register("name", {
   required: "יש להזין שם",
   minLength: { value: 2, message: "לפחות 2 תווים" },
   maxLength: { value: 80, message: "עד 80 תווים" },
 })} />
-{errors.name && <p>{errors.name.message}</p>}
-                <label>אימייל</label>
-                <input type="email" {...register("email", { required: "יש להזין אימייל" })} />
-                {errors.email && <p>{errors.email.message}</p>}
-                <label>טלפון</label>
-                <input type="tel" {...register("phone", {
+{errors.name && <p className="form-error">{errors.name.message}</p>}
+                <label className="form-label">אימייל</label>
+                <input className="field" type="email" {...register("email", { required: "יש להזין אימייל" })} />
+                {errors.email && <p className="form-error">{errors.email.message}</p>}
+                <label className="form-label">טלפון</label>
+                <input className="field" type="tel" {...register("phone", {
   pattern: { value: /^(\+972|0)[-\s]?\d{1,2}[-\s]?\d{7}$/, message: "טלפון לא תקין" },
 })} />
-                {errors.phone && <p>{errors.phone.message}</p>}
-                <label>נושא</label>
-                <input type="text" {...register("subject", {
+                {errors.phone && <p className="form-error">{errors.phone.message}</p>}
+                <label className="form-label">נושא</label>
+                <input className="field" type="text" {...register("subject", {
   required: "יש להזין נושא",
   minLength: { value: 2, message: "לפחות 2 תווים" },
   maxLength: { value: 100, message: "עד 100 תווים" },
 })} />
-                {errors.subject && <p>{errors.subject.message}</p>}
-                <label>הודעה</label>
-                <textarea {...register("message", {
+                {errors.subject && <p className="form-error">{errors.subject.message}</p>}
+                <label className="form-label">הודעה</label>
+                <textarea className="field min-h-28" {...register("message", {
   required: "יש להזין הודעה",
   minLength: { value: 10, message: "לפחות 10 תווים" },
   maxLength: { value: 2000, message: "עד 2000 תווים" },
 })} />
-                {errors.message && <p>{errors.message.message}</p>}
-                {serverError && <p>{serverError}</p>}
-                <button type="submit" disabled={sendContact.isPending}>
+                {errors.message && <p className="form-error">{errors.message.message}</p>}
+                {serverError && <p className="form-error">{serverError}</p>}
+                <button className="btn mt-4" type="submit" disabled={sendContact.isPending}>
   {sendContact.isPending ? "שולחת..." : "שליחה"}
 </button>
             </form>

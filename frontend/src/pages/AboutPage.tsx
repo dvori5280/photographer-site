@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 export default function AboutPage()
 {
     return (
-        <div>
-            <h1>אודות</h1>
+        <div className="mx-auto flex max-w-2xl flex-col gap-4 rounded-2xl bg-white p-8 shadow-md leading-relaxed">
+            <h1 className="page-title">אודות</h1>
             <p>מירי לבל היא צלמת המתמחה בצילומי משפחה, ניו בורן, סמאש קייק וחלאקה. כל צילום נעשה באווירה נינוחה ובתשומת לב לפרטים הקטנים, כדי שהרגעים החשובים שלכם יישמרו כמו שהם.</p>
             <p>בכל חבילה אפשר לבחור את הסגנון שמתאים לכם, מצילום קצר בסטודיו ועד ליווי מלא של האירוע. לאחר הצילום תקבלו גלריה מסודרת עם תמונות ערוכות באיכות גבוהה.</p>
             <p>רוצים לתאם צילום או לשמוע עוד? אפשר ליצור קשר או לבחור חבילה ולשלוח בקשת הזמנה דרך האתר.</p>
-            <Link to="/contact">ליצירת קשר</Link>
+            <Link className="btn w-fit self-center" to="/contact">ליצירת קשר</Link>
         </div>
     )
 }
