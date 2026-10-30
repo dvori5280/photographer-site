@@ -3,6 +3,7 @@ import { useCreatePackage, useUpdatePackage } from "../hooks/usePackageMutations
 import { useCategories } from "../hooks/useCategories";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import FormField from "./FormField";
 
 
 
@@ -30,9 +31,9 @@ export default function PackageForm({ pkg, onDone }: Props) {
     const categoriesQuery = useCategories();
     const [serverError, setServerError] = useState("");
 
-      useEffect(() => {
-    if (pkg) window.scrollTo({ top: 0, behavior: "smooth" });
-}, [pkg]);
+    useEffect(() => {
+        if (pkg) window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [pkg]);
 
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<PackageFormData>({
@@ -94,63 +95,57 @@ export default function PackageForm({ pkg, onDone }: Props) {
 
 
 
-        return (
+    return (
         <form className="form-card mb-8 !mx-0 !max-w-none" onSubmit={handleSubmit(onSubmit)}>
             <h3 className="text-xl font-bold">{pkg ? "עריכת חבילה" : "הוספת חבילה"}</h3>
 
-            <label className="form-label">שם</label>
-            <input className="field" type="text" {...register("name", {
-                required: "יש להזין שם",
-                minLength: { value: 2, message: "לפחות 2 תווים" },
-                maxLength: { value: 80, message: "עד 80 תווים" },
-            })} />
-            {errors.name && <p className="form-error">{errors.name.message}</p>}
-
-            <label className="form-label">תיאור</label>
-            <textarea className="field min-h-24" {...register("description", {
-                required: "יש להזין תיאור",
-                minLength: { value: 2, message: "לפחות 2 תווים" },
-                maxLength: { value: 1000, message: "עד 1000 תווים" },
-            })} />
-            {errors.description && <p className="form-error">{errors.description.message}</p>}
-
-            <label className="form-label">קטגוריה</label>
-            <select className="field" {...register("categoryId", {
-                required: "יש לבחור קטגוריה"
-            })}>
-                <option value="">בחרי קטגוריה</option>
-                {categoriesQuery.data?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-            {errors.categoryId && <p className="form-error">{errors.categoryId.message}</p>}
-
-            <label className="form-label">מחיר (בשקלים)</label>
-            <input className="field" type="number" step={0.01} {...register("basePrice", {
-                required: "יש להזין מחיר",
-                valueAsNumber: true,
-                min: { value: 1, message: "לפחות 1 ש״ח" },
-            })} />
-            {errors.basePrice && <p className="form-error">{errors.basePrice.message}</p>}
-
-            <label className="form-label">משך הצילום (בדקות)</label>
-            <input className="field" type="number" {...register("durationMinutes", {
-                required: "יש להזין משך",
-                valueAsNumber: true,
-                min: { value: 1, message: "לפחות דקה אחת" },
-                max: { value: 1440, message: "עד 1440 דקות" },
-            })} />
-            {errors.durationMinutes && <p className="form-error">{errors.durationMinutes.message}</p>}
-
-            <label className="form-label">כתובת תמונה (לא חובה)</label>
-            <input className="field" type="text" {...register("imageUrl")} />
-
-            <label className="form-label">מה כלול בחבילה (פריט בכל שורה)</label>
-            <textarea className="field min-h-24" {...register("includedItems", {
-                required: "יש להזין לפחות פריט אחד",
-                validate: (value) =>
-                    value.split("\n").some(item => item.trim() !== "") || "יש להזין לפחות פריט אחד",
-            })} />
-            {errors.includedItems && <p className="form-error">{errors.includedItems.message}</p>}
-
+            <FormField label="שם" error={errors.name?.message}>
+                <input className="field" type="text" {...register("name", {
+                    required: "יש להזין שם",
+                    minLength: { value: 2, message: "לפחות 2 תווים" },
+                    maxLength: { value: 80, message: "עד 80 תווים" },
+                })} />
+            </FormField>
+            <FormField label="תיאור" error={errors.description?.message}>
+                <textarea className="field min-h-24" {...register("description", {
+                    required: "יש להזין תיאור",
+                    minLength: { value: 2, message: "לפחות 2 תווים" },
+                    maxLength: { value: 1000, message: "עד 1000 תווים" },
+                })} />
+            </FormField>
+            <FormField label="קטגוריה" error={errors.categoryId?.message}>
+                <select className="field" {...register("categoryId", {
+                    required: "יש לבחור קטגוריה"
+                })}>
+                    <option value="">בחרי קטגוריה</option>
+                    {categoriesQuery.data?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+            </FormField>
+            <FormField label="מחיר (בשקלים)" error={errors.basePrice?.message}>
+                <input className="field" type="number" step={0.01} {...register("basePrice", {
+                    required: "יש להזין מחיר",
+                    valueAsNumber: true,
+                    min: { value: 1, message: "לפחות 1 ש״ח" },
+                })} />
+            </FormField>
+            <FormField label="משך הצילום (בדקות)" error={errors.durationMinutes?.message}>
+                <input className="field" type="number" {...register("durationMinutes", {
+                    required: "יש להזין משך",
+                    valueAsNumber: true,
+                    min: { value: 1, message: "לפחות דקה אחת" },
+                    max: { value: 1440, message: "עד 1440 דקות" },
+                })} />
+            </FormField>
+            <FormField label="כתובת תמונה (לא חובה)">
+                <input className="field" type="text" {...register("imageUrl")} />
+            </FormField>
+            <FormField label="מה כלול בחבילה (פריט בכל שורה)" error={errors.includedItems?.message}>
+                <textarea className="field min-h-24" {...register("includedItems", {
+                    required: "יש להזין לפחות פריט אחד",
+                    validate: (value) =>
+                        value.split("\n").some(item => item.trim() !== "") || "יש להזין לפחות פריט אחד",
+                })} />
+            </FormField>
             <label className="mt-2 flex items-center gap-2 text-sm">
                 <input type="checkbox" {...register("isActive")} />
                 חבילה פעילה (מוצגת באתר)
