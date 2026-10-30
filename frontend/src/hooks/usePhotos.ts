@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { api } from "../api/client";
 import type { Photo } from "../types";
 
@@ -11,6 +11,7 @@ export function usePhotos(categoryId?:string) {
 
     return useQuery(
         {
+            placeholderData: keepPreviousData,
             queryKey: ["photos", categoryId],
             queryFn: () => api<Photo[]>(url),
         }

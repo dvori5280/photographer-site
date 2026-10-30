@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateCategory, useUpdateCategory } from "../hooks/useCategoryMutations";
 import type { Category } from "../types";
@@ -19,6 +19,10 @@ export default function CategoryForm({ category, onDone }: Props) {
     const updateCategory = useUpdateCategory();
 
     const [serverError, setServerError] = useState("");
+
+    useEffect(() => {
+        if (category) window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [category]);
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<CategoryFormData>({
         defaultValues: {
@@ -54,7 +58,7 @@ export default function CategoryForm({ category, onDone }: Props) {
 
     }
 
-        return (
+    return (
         <form className="form-card mb-8 !mx-0 !max-w-none" onSubmit={handleSubmit(onSubmit)}>
             <h3 className="text-xl font-bold">{category ? "עריכת קטגוריה" : "הוספת קטגוריה"}</h3>
             <label className="form-label">שם</label>
@@ -62,12 +66,12 @@ export default function CategoryForm({ category, onDone }: Props) {
                 required: "יש להזין שם",
                 minLength: { value: 2, message: "לפחות 2 תווים" },
                 maxLength: { value: 60, message: "עד 60 תווים" },
-            })}/>
+            })} />
             {errors.name && <p className="form-error">{errors.name.message}</p>}
             <label className="form-label">תיאור (לא חובה)</label>
             <textarea className="field min-h-24" {...register("description", {
                 maxLength: { value: 300, message: "עד 300 תווים" },
-            })}/>
+            })} />
             {errors.description && <p className="form-error">{errors.description.message}</p>}
             {serverError && <p className="form-error">{serverError}</p>}
             <div className="mt-3 flex gap-3">

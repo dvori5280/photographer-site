@@ -1,7 +1,7 @@
 import type { Package } from "../types";
 import { useCreatePackage, useUpdatePackage } from "../hooks/usePackageMutations";
 import { useCategories } from "../hooks/useCategories";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 
@@ -29,6 +29,11 @@ export default function PackageForm({ pkg, onDone }: Props) {
     const updatePackage = useUpdatePackage();
     const categoriesQuery = useCategories();
     const [serverError, setServerError] = useState("");
+
+      useEffect(() => {
+    if (pkg) window.scrollTo({ top: 0, behavior: "smooth" });
+}, [pkg]);
+
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<PackageFormData>({
         defaultValues: {

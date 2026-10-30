@@ -12,13 +12,13 @@ export default function GalleryPage()
     const photosQuery = usePhotos(categoryId);
     
     const photos = photosQuery.data;
-    if (!photos) return null;
-
+    
     if (photosQuery.isLoading) 
         return <p className="py-10 text-center text-muted">טוען תמונות...</p>;
     if (photosQuery.isError) 
         return <p className="py-10 text-center text-red-700">{photosQuery.error.message}</p>;
-
+    if (!photos) return null;
+    
     return (
         <div>
             <h1 className="page-title">גלריה</h1>

@@ -45,7 +45,7 @@ export default function Layout()
             <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">
                 <Outlet/>
             </main>
-            <footer className="border-t border-sand py-6 text-center text-sm text-muted">כל הזכויות שמורות © מירי לבל</footer>
+            <footer className="border-t border-sand py-6 text-center text-sm text-muted">כל הזכויות שמורות © דבורי נחמוני</footer>
         </div>
     )
 }
