@@ -7,6 +7,7 @@ import { formatPrice } from "../utils/format";
 import { eventTypeLabels } from "../utils/labels";
 import type { EventType } from "../types";
 import FormField from "../components/FormField";
+import SubmitButton from "../components/SubmitButton";
 
 
 type BookingForm = {
@@ -82,8 +83,7 @@ if (packageQuery.isError) return <p className="py-10 text-center text-red-700">{
           <textarea className="field min-h-28" {...register("notes", { maxLength: { value: 1000, message: "עד 1000 תווים" } })} />
         </FormField>
         {serverError && <p className="form-error">{serverError}</p>}
-        <button className="btn mt-4" type="submit" disabled={createBooking.isPending}>{createBooking.isPending ? "שולחת..." : "שליחת בקשה"}</button>
-        {createBooking.isPending && <p className="text-center text-sm text-muted">השרת מתעורר, זה יכול לקחת עד דקה...</p>}
+        <SubmitButton loading={createBooking.isPending} text="שליחת בקשה" loadingText="שולחת..." />
       </form>
       <Link className="mt-4 block text-center text-sm text-rose-dark underline" to={"/packages/" + pkg.id}>חזרה לפרטי החבילה</Link>
     </div>

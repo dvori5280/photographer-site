@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSendContact } from "../hooks/useSendContact";
 import FormField from "../components/FormField";
+import SubmitButton from "../components/SubmitButton";
 
 type ContactForm = {
     name: string;
@@ -70,10 +71,7 @@ export default function ContactPage() {
                     })} />
                 </FormField>
                 {serverError && <p className="form-error">{serverError}</p>}
-                <button className="btn mt-4" type="submit" disabled={sendContact.isPending}>
-                    {sendContact.isPending ? "שולחת..." : "שליחה"}
-                </button>
-                {sendContact.isPending && <p className="text-center text-sm text-muted">השרת מתעורר, זה יכול לקחת עד דקה...</p>}
+                <SubmitButton loading={sendContact.isPending} text="שליחה" loadingText="שולחת..." />
             </form>
         </div>
     );

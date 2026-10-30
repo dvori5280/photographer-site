@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import FormField from "../components/FormField";
+import SubmitButton from "../components/SubmitButton";
 
 
 type LoginForm = { email: string; password: string };
@@ -36,10 +37,7 @@ export default function LoginPage() {
                     <input className="field" type="password" {...register("password", { required: "יש להזין סיסמה" })} />
                 </FormField>
                 {serverError && <p className="form-error">{serverError}</p>}
-                <button className="btn mt-4" type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "מתחבר..." : "התחבר/י"}
-                </button>
-                {isSubmitting && <p className="text-center text-sm text-muted">השרת מתעורר, זה יכול לקחת עד דקה...</p>}
+                <SubmitButton loading={isSubmitting} text="התחבר/י" loadingText="מתחבר..." />
             </form>
             <p className="mt-4 text-center text-sm">אין לך חשבון? <Link className="text-rose-dark underline" to="/register">להרשמה</Link></p>
         </div>

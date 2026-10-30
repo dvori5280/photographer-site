@@ -4,6 +4,7 @@ import type { BookingStatus, EventType } from "../../types";
 import { eventTypeLabels, bookingStatusLabels } from "../../utils/labels";
 import { formatDate, formatPrice } from "../../utils/format";
 import { useUpdateBookingStatus } from "../../hooks/useUpdateBookingStatus";
+import StatusSelect from "../../components/StatusSelect";
 
 export default function AdminBookingsPage() {
 
@@ -43,13 +44,12 @@ export default function AdminBookingsPage() {
                     <div key={b.id} className="rounded-2xl bg-white p-5 shadow-md">
                         <div className="mb-3 flex items-start justify-between gap-2 border-b border-sand pb-3">
                             <p className="text-lg font-bold">{b.package.name}</p>
-                            <select className="field w-auto !py-1 text-sm" value={updateStatus.isPending && updateStatus.variables?.id === b.id ? updateStatus.variables.status : b.status} onChange={(e) => updateStatus.mutate({ id: b.id, status: e.target.value as BookingStatus })} disabled={updateStatus.isPending}>
-                                {Object.entries(bookingStatusLabels).map(([key, label]) => (
-                                    <option key={key} value={key}>
-                                        {label}
-                                    </option>
-                                ))}
-                            </select>
+                            <StatusSelect
+                                value={updateStatus.isPending && updateStatus.variables?.id === b.id ? updateStatus.variables.status : b.status}
+                                labels={bookingStatusLabels}
+                                disabled={updateStatus.isPending}
+                                onChange={(status) => updateStatus.mutate({ id: b.id, status })}
+                            />
                         </div>
                         <div className="space-y-1 text-sm">
                             <p><span className="text-muted">לקוחה: </span>{b.customer?.name}</p>

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useCategories } from "../hooks/useCategories";
 import { useCreatePhoto, useUpdatePhoto } from "../hooks/usePhotoMutations";
 import type { Photo } from "../types";
 import { useForm } from "react-hook-form";
 import FormField from "./FormField";
+import { useScrollToTopWhen } from "../hooks/useScrollToTopWhen";
 
 
 
@@ -28,10 +29,7 @@ export default function PhotoForm({ photo, onDone }: Props) {
     const categories = useCategories();
     const [serverError, setServerError] = useState("");
 
-    useEffect(() => {
-        if (photo) window.scrollTo({ top: 0, behavior: "smooth" });
-    }, [photo]);
-
+    useScrollToTopWhen(photo);
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<PhotoFormData>({
         defaultValues: {

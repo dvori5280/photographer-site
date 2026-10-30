@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useCreateCategory, useUpdateCategory } from "../hooks/useCategoryMutations";
 import type { Category } from "../types";
 import FormField from "./FormField";
+import { useScrollToTopWhen } from "../hooks/useScrollToTopWhen";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 type Props = {
     category?: Category;
@@ -21,9 +22,7 @@ export default function CategoryForm({ category, onDone }: Props) {
 
     const [serverError, setServerError] = useState("");
 
-    useEffect(() => {
-        if (category) window.scrollTo({ top: 0, behavior: "smooth" });
-    }, [category]);
+    useScrollToTopWhen(category);
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<CategoryFormData>({
         defaultValues: {

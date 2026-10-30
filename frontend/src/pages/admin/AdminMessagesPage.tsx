@@ -4,6 +4,7 @@ import { useAdminMessages } from "../../hooks/useAdminMessages";
 import { useUpdateMessageStatus } from "../../hooks/useUpdateMessageStatus";
 import { contactStatusLabels } from "../../utils/labels";
 import { formatDate } from "../../utils/format";
+import StatusSelect from "../../components/StatusSelect";
 
 export default function AdminMessagesPage() {
 
@@ -33,13 +34,12 @@ export default function AdminMessagesPage() {
                     <div key={m.id} className="rounded-2xl bg-white p-5 shadow-md">
                         <div className="mb-3 flex items-start justify-between gap-2 border-b border-sand pb-3">
                             <p className="text-lg font-bold">{m.subject}</p>
-                            <select className="field w-auto !py-1 text-sm" value={updateStatus.isPending && updateStatus.variables?.id === m.id ? updateStatus.variables.status : m.status} onChange={(e) => updateStatus.mutate({ id: m.id, status: e.target.value as ContactStatus })} disabled={updateStatus.isPending}>
-                                {Object.entries(contactStatusLabels).map(([key, label]) => (
-                                    <option key={key} value={key}>
-                                        {label}
-                                    </option>
-                                ))}
-                            </select>
+                            <StatusSelect
+                                value={updateStatus.isPending && updateStatus.variables?.id === m.id ? updateStatus.variables.status : m.status}
+                                labels={contactStatusLabels}
+                                disabled={updateStatus.isPending}
+                                onChange={(status) => updateStatus.mutate({ id: m.id, status })}
+                            />
                         </div>
                         <div className="space-y-1 text-sm">
                             <p><span className="text-muted">שם: </span>{m.name}</p>
