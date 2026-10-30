@@ -83,6 +83,7 @@ export default function BookingPage()
                 {errors.notes && <p className="form-error">{errors.notes.message}</p>}
                 {serverError && <p className="form-error">{serverError}</p>}
                 <button className="btn mt-4" type="submit" disabled={createBooking.isPending}>{createBooking.isPending ? "שולחת..." : "שליחת בקשה"}</button>
+                {createBooking.isPending && <p className="text-center text-sm text-muted">השרת מתעורר, זה יכול לקחת עד דקה...</p>}
             </form>
             <Link className="mt-4 block text-center text-sm text-rose-dark underline" to={"/packages/" + pkg.id}>חזרה לפרטי החבילה</Link>
         </div>
