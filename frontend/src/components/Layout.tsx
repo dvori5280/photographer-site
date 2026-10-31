@@ -27,9 +27,9 @@ export default function Layout() {
                         (
                             <>
                                 <span className="mr-auto" />
-                                {user.role === "ADMIN" && <Link className="rounded-full px-3 py-1.5 text-sm no-underline hover:bg-sand bg-sand" to="/admin/bookings">ניהול</Link>}
+                                {user.role === "ADMIN" && <Link className="rounded-full px-3 py-1.5 text-lg no-underline hover:bg-sand bg-sand" to="/admin/bookings">ניהול</Link>}
                                 <Link className="rounded-full px-3 py-1.5 text-lg no-underline hover:bg-sand" to="/my-bookings">ההזמנות שלי</Link>
-                                <span className="px-2 text-sm text-muted">שלום {user.name}</span>
+                                <span className="px-2 text-lg text-muted">שלום {user.name}</span>
                                 <button className="btn-outline !px-4 !py-1.5 text-lg" onClick={handleLogout}>התנתקות</button>
                             </>
                         ) :
