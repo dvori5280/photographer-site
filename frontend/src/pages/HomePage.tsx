@@ -13,13 +13,13 @@ export default function HomePage() {
     return (
         <div className="flex flex-col gap-12">
             <section className="relative -mx-5 -mt-8 flex min-h-[420px] items-center justify-center bg-sand bg-[url('/hero.jpg')] bg-cover bg-center px-5 py-16 text-center">
-    <div className="absolute inset-0 bg-black/40" />
-    <div className="relative">
-        <h1 className="text-5xl font-bold text-white">מירי לבל</h1>
-        <h3 className="mb-6 mt-2 text-xl text-white/90">צילומים שנשארים לנצח</h3>
-        <Link className="btn" to="/packages">לחבילות הצילום</Link>
-    </div>
-</section>
+                <div className="absolute inset-0 bg-black/40" />
+                <div className="relative">
+                    <h1 className="text-5xl font-bold text-white">מירי לבל</h1>
+                    <h3 className="mb-6 mt-2 text-xl text-white/90">צילומים שנשארים לנצח</h3>
+                    <Link className="btn" to="/packages">לחבילות הצילום</Link>
+                </div>
+            </section>
             <section>
                 <h3 className="mb-6 text-center text-2xl font-bold">חבילות מומלצות</h3>
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
